@@ -1,30 +1,39 @@
 package router
 
-import "github.com/gin-gonic/gin"
+import (
+	"github.com/gin-gonic/gin"
+	"github.com/leonardogcsoares/phonebook-api/router/repo"
+	"github.com/leonardogcsoares/phonebook-api/router/validator"
+	"github.com/syndtr/goleveldb/leveldb"
+)
 
 // Router is the hub for routing and handlers
 type Router struct {
-	port   string
-	engine *gin.Engine
+	port      string
+	engine    *gin.Engine
+	Repo      repo.Repo
+	validator validator.V
 }
 
 // New TODO
-func New(port string) Router {
+func New(port string, db *leveldb.DB) Router {
 	r := Router{
-		port: port,
+		port:      port,
+		Repo:      repo.NewRepo(db),
+		validator: validator.Impl{},
 	}
 
 	engine := gin.New()
 	engine.Use(gin.Logger())
 	engine.Use(gin.Recovery())
+	engine.POST("/login", r.login)
+
 	engine.Use(r.validate())
 
 	engine.POST("/phone", r.CreateEntry)
 	engine.GET("/phone/:id", r.GetEntry)
 	engine.PUT("/phone/:id", r.UpdateEntry)
 	engine.DELETE("/phone/:id", r.DeleteEntry)
-
-	engine.POST("/login", r.login)
 
 	r.engine = engine
 
