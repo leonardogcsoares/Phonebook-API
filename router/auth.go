@@ -16,7 +16,7 @@ func (r Router) validate() gin.HandlerFunc {
 
 		options, err := config.New()
 		if err != nil {
-			c.String(http.StatusInternalServerError, "invalid config/options")
+			c.String(http.StatusInternalServerError, "invalid config/options: "+err.Error())
 			return
 		}
 
@@ -81,7 +81,7 @@ func (r Router) login(c *gin.Context) {
 
 	c.JSON(
 		http.StatusOK,
-		loginResp{
+		LoginResp{
 			Token: tokenString,
 		})
 

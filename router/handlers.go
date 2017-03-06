@@ -54,7 +54,7 @@ func (r Router) CreateEntry(c *gin.Context) {
 	var entry repo.Entry
 	err := c.BindJSON(&entry)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, errorResp{
+		c.JSON(http.StatusBadRequest, ErrorResp{
 			Msg:   errUnmarshEntry,
 			Error: err.Error(),
 		})
@@ -63,7 +63,7 @@ func (r Router) CreateEntry(c *gin.Context) {
 
 	// do validations here
 	if errValid := r.validator.IsValidEntry(entry); errValid != nil {
-		c.JSON(http.StatusBadRequest, errorResp{
+		c.JSON(http.StatusBadRequest, ErrorResp{
 			Msg:   errInvalidEntry,
 			Error: errValid.Error(),
 		})
@@ -74,7 +74,7 @@ func (r Router) CreateEntry(c *gin.Context) {
 
 	createdEntry, err := r.Repo.CreateEntry(entry)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, errorResp{
+		c.JSON(http.StatusBadRequest, ErrorResp{
 			Msg:   errCreateEntry,
 			Error: err.Error(),
 		})
@@ -90,7 +90,7 @@ func (r Router) GetEntry(c *gin.Context) {
 
 	entry, err := r.Repo.GetEntry(id)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, errorResp{
+		c.JSON(http.StatusBadRequest, ErrorResp{
 			Msg:   errGetEntry,
 			Error: err.Error(),
 		})
@@ -107,7 +107,7 @@ func (r Router) UpdateEntry(c *gin.Context) {
 	var entry repo.Entry
 	err := c.BindJSON(&entry)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, errorResp{
+		c.JSON(http.StatusBadRequest, ErrorResp{
 			Msg:   errUnmarshEntry,
 			Error: err.Error(),
 		})
@@ -116,7 +116,7 @@ func (r Router) UpdateEntry(c *gin.Context) {
 
 	updatedEntry, err := r.Repo.UpdateEntry(id, entry)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, errorResp{
+		c.JSON(http.StatusBadRequest, ErrorResp{
 			Msg:   errUpdateEntry,
 			Error: err.Error(),
 		})
@@ -132,7 +132,7 @@ func (r Router) DeleteEntry(c *gin.Context) {
 
 	err := r.Repo.DeleteEntry(id)
 	if err != nil {
-		c.JSON(http.StatusBadRequest, errorResp{
+		c.JSON(http.StatusBadRequest, ErrorResp{
 			Msg:   errDeleteEntry,
 			Error: err.Error(),
 		})

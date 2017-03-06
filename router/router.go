@@ -44,3 +44,8 @@ func New(port string, db *leveldb.DB) Router {
 func (r Router) Start() error {
 	return r.engine.Run(":" + r.port)
 }
+
+// Engine TODO
+func (r *Router) Engine() *gin.Engine {
+	return r.engine
+}

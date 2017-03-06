@@ -1,10 +1,12 @@
 package router
 
-type loginResp struct {
+// LoginResp TODO
+type LoginResp struct {
 	Token string `json:"token"`
 }
 
-type errorResp struct {
+// ErrorResp TODO
+type ErrorResp struct {
 	Msg   string `json:"msg"`
 	Error string `json:"error"`
 }
